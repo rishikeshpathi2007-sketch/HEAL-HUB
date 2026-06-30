@@ -1,0 +1,58 @@
+.hero{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    min-height:85vh;
+
+    padding:4rem 5rem;
+
+    gap:4rem;
+}
+
+.hero-content{
+    flex:1;
+    max-width:40rem;
+}
+
+.hero-content h1{
+    font-size:clamp(3rem,5vw,4.5rem);
+    line-height:1.1;
+    margin-bottom:1.5rem;
+    color:#1F2933;
+}
+
+.hero-content p{
+    font-size:1.1rem;
+    line-height:1.8;
+    margin-bottom:2rem;
+    color:#4B5563;
+}
+
+.hero-btn{
+    padding:1rem 2rem;
+
+    background:#2F5D50;
+
+    color:white;
+
+    border-radius:0.5rem;
+
+    transition:0.3s ease;
+}
+
+.hero-btn:hover{
+    background:#24483D;
+}
+
+.hero-image{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.hero-image img{
+    width:100%;
+    max-width:34rem;
+}
