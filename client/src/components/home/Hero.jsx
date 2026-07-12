@@ -5,47 +5,47 @@ function Hero() {
 
     return (
 
-       <section className="hero">
+        <section className="hero">
 
-    <div className="hero-content">
+            <div className="hero-content">
 
-        <h1>
-            Your Healing Journey
-            <br />
-            Starts Here.
-        </h1>
+                <h1>
+                    Your Healing Journey
+                    <br />
+                    Starts Here.
+                </h1>
 
-        <p>
-            Heal Hub is a safe and supportive community where you can
-            share your experiences, document your healing journey,
-            connect with people who understand, and grow stronger
-            together.
-        </p>
+                <p>
+                    Heal Hub is a safe and supportive community where you can
+                    share your experiences, document your healing journey,
+                    connect with people who understand, and grow stronger
+                    together.
+                </p>
 
-        <div className="hero-buttons">
+                <div className="hero-buttons">
 
-            <button className="hero-btn">
-                Get Started
-            </button>
+                    <button className="hero-btn">
+                        Get Started
+                    </button>
 
-            <button className="hero-btn-outline">
-                Explore Community
-            </button>
+                    <button className="hero-btn-outline">
+                        Explore Community
+                    </button>
 
-        </div>
+                </div>
 
-    </div>
+            </div>
 
-    <div className="hero-image">
+            <div className="hero-image">
 
-        <img
-            src={heroImage}
-            alt="Healing Community"
-        />
+                <img
+                    src={heroImage}
+                    alt="Healing Community"
+                />
 
-    </div>
+            </div>
 
-</section>
+        </section>
 
     );
 

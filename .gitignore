@@ -1,0 +1,14 @@
+client/node_modules/
+server/node_modules/
+
+client/dist/
+client/build/
+
+server/uploads/
+
+.env
+
+*.log
+
+.vscode/
+.idea/
