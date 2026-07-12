@@ -9,11 +9,15 @@ function Feed() {
 
     const token = localStorage.getItem("token");
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
     async function fetchPosts() {
 
         try {
 
-            const response = await fetch("http://localhost:5000/api/posts");
+            const response = await fetch(
+                "http://localhost:5000/api/posts"
+            );
 
             const data = await response.json();
 
@@ -36,8 +40,11 @@ function Feed() {
     async function createPost() {
 
         if (!content.trim()) {
+
             alert("Post cannot be empty");
+
             return;
+
         }
 
         try {
@@ -53,14 +60,23 @@ function Feed() {
             }
 
             const response = await fetch(
+
                 "http://localhost:5000/api/posts",
+
                 {
+
                     method: "POST",
+
                     headers: {
+
                         Authorization: `Bearer ${token}`,
+
                     },
+
                     body: formData,
+
                 }
+
             );
 
             const data = await response.json();
@@ -68,7 +84,62 @@ function Feed() {
             if (response.ok) {
 
                 setContent("");
+
                 setImage(null);
+
+                fetchPosts();
+
+            } else {
+
+                alert(data.message);
+
+            }
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    }
+
+    async function deletePost(postId) {
+
+        const confirmDelete = window.confirm(
+
+            "Are you sure you want to delete this post?"
+
+        );
+
+        if (!confirmDelete) {
+
+            return;
+
+        }
+
+        try {
+
+            const response = await fetch(
+
+                `http://localhost:5000/api/posts/${postId}`,
+
+                {
+
+                    method: "DELETE",
+
+                    headers: {
+
+                        Authorization: `Bearer ${token}`,
+
+                    },
+
+                }
+
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
 
                 fetchPosts();
 
@@ -132,6 +203,17 @@ function Feed() {
                                 alt="Post"
                                 className="post-image"
                             />
+
+                        )}
+
+                        {user && user.id === post.author._id && (
+
+                            <button
+                                className="delete-btn"
+                                onClick={() => deletePost(post._id)}
+                            >
+                                Delete
+                            </button>
 
                         )}
 
