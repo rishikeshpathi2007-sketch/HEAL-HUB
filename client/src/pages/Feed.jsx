@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/Feed.css";
+import defaultProfile from "../assets/default-profile.png";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
@@ -290,7 +292,23 @@ function Feed() {
       <section className="posts">
         {posts.map((post) => (
           <div className="post-card" key={post._id}>
-            <h3>{post.author.name}</h3>
+            <Link to={`/user/${post.author._id}`} className="author-link">
+              <div className="post-author">
+                <Link to={`/user/${post.author._id}`} className="author-link">
+                  <img
+                    src={
+                      post.author.profileImage
+                        ? `http://localhost:5000/uploads/${post.author.profileImage}`
+                        : defaultProfile
+                    }
+                    alt="Profile"
+                    className="author-image"
+                  />
+
+                  <h3>{post.author.name}</h3>
+                </Link>
+              </div>
+            </Link>
 
             {editingPostId === post._id ? (
               <>

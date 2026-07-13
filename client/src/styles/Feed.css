@@ -313,3 +313,37 @@
 
   font-style: italic;
 }
+.post-author {
+  display: flex;
+
+  align-items: center;
+
+  margin-bottom: 1rem;
+}
+
+.author-link {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.8rem;
+
+  text-decoration: none;
+
+  color: inherit;
+}
+
+.author-image {
+  width: 45px;
+
+  height: 45px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+/* .author-name {
+  font-weight: bold;
+
+  color: #2f5d50;
+} */

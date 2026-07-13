@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import defaultProfile from "../../assets/default-profile.png";
 import "../../styles/Navbar.css";
 
 function Navbar() {
@@ -56,7 +57,7 @@ function Navbar() {
                 src={
                   user.profileImage
                     ? `http://localhost:5000/uploads/${user.profileImage}`
-                    : "https://via.placeholder.com/40"
+                    : defaultProfile
                 }
                 alt="Profile"
                 className="navbar-profile-image"

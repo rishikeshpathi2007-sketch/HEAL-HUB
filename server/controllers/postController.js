@@ -34,7 +34,7 @@ export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
 
-      .populate("author", "name email")
+      .populate("author", "name email profileImage")
 
       .populate("comments.user", "name email")
 

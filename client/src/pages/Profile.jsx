@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/Profile.css";
+import defaultProfile from "../assets/default-profile.png";
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -113,7 +114,7 @@ function Profile() {
           src={
             user.profileImage
               ? `http://localhost:5000/uploads/${user.profileImage}`
-              : "https://via.placeholder.com/150"
+              : defaultProfile
           }
           alt="Profile"
           className="profile-image"
