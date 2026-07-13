@@ -7,6 +7,7 @@ import {
   login,
   getProfile,
   updateProfile,
+  getMyPosts,
 } from "../controllers/authController.js";
 
 const router = express.Router();
@@ -23,5 +24,6 @@ router.put(
   upload.single("profileImage"),
   updateProfile,
 );
+router.get("/profile/posts", authMiddleware, getMyPosts);
 
 export default router;

@@ -1,0 +1,131 @@
+.profile-container {
+  max-width: 700px;
+
+  margin: 2rem auto;
+
+  padding: 1rem;
+}
+
+.profile-card {
+  background: white;
+
+  padding: 2rem;
+
+  border-radius: 12px;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.profile-image {
+  width: 150px;
+
+  height: 150px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  display: block;
+
+  margin: auto;
+
+  margin-bottom: 1rem;
+}
+
+.profile-card h2 {
+  text-align: center;
+
+  color: #2f5d50;
+}
+
+.profile-card p {
+  text-align: center;
+
+  margin: 0.5rem 0;
+}
+
+.profile-form {
+  margin-top: 2rem;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+.profile-form input,
+.profile-form textarea {
+  padding: 0.8rem;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  font-size: 1rem;
+}
+
+.profile-form textarea {
+  resize: none;
+
+  height: 100px;
+}
+
+.profile-form button {
+  padding: 0.9rem;
+
+  background: #2f5d50;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.profile-form button:hover {
+  background: #264b41;
+}
+.my-posts {
+  margin-top: 3rem;
+}
+
+.my-posts h2 {
+  color: #2f5d50;
+
+  margin-bottom: 1.5rem;
+}
+
+.my-post-card {
+  background: #f7f7f7;
+
+  border-radius: 10px;
+
+  padding: 1rem;
+
+  margin-bottom: 1.5rem;
+}
+
+.my-post-image {
+  width: 100%;
+
+  max-height: 400px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+
+  margin-top: 1rem;
+}
+
+.my-post-info {
+  display: flex;
+
+  gap: 2rem;
+
+  margin-top: 1rem;
+
+  font-weight: bold;
+}

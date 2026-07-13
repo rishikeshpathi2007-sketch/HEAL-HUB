@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Post from "../models/Post.js";
 
 // ==========================
 // Signup
@@ -92,6 +93,8 @@ export const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        bio: user.bio,
+        profileImage: user.profileImage,
       },
     });
   } catch (error) {
@@ -146,6 +149,21 @@ export const getProfile = async (req, res) => {
     }
 
     res.json(user);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export const getMyPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({
+      author: req.user._id,
+    })
+
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
   } catch (error) {
     res.status(500).json({
       message: error.message,

@@ -3,91 +3,76 @@ import { useEffect, useState } from "react";
 import "../../styles/Navbar.css";
 
 function Navbar() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
 
-    useEffect(() => {
-
-        const token = localStorage.getItem("token");
-
-        if (token) {
-            setIsLoggedIn(true);
-        }
-
-    }, []);
-
-    function handleLogout() {
-
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-
-        setIsLoggedIn(false);
-
-        navigate("/login");
-
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
+  }, []);
 
-    return (
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
-        <nav className="navbar">
+    setUser(null);
 
-            <div className="logo">
+    navigate("/login");
+  }
 
-                <Link to="/">Heal Hub</Link>
+  return (
+    <nav className="navbar">
+      <div className="logo">
+        <Link to="/">Heal Hub</Link>
+      </div>
 
-            </div>
+      <div className="nav-links">
+        <Link to="/">Home</Link>
 
-            <div className="nav-links">
+        <Link to="/feed">Community</Link>
 
-                <Link to="/">Home</Link>
+        <Link to="/">About</Link>
+      </div>
 
-                <Link to="/feed">Community</Link>
+      <div className="nav-auth">
+        {!user ? (
+          <>
+            <Link to="/login" className="login-link">
+              Login
+            </Link>
 
-                <Link to="/">About</Link>
+            <Link to="/signup" className="signup-btn">
+              Sign Up
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/profile" className="profile-link">
+              <img
+                src={
+                  user.profileImage
+                    ? `http://localhost:5000/uploads/${user.profileImage}`
+                    : "https://via.placeholder.com/40"
+                }
+                alt="Profile"
+                className="navbar-profile-image"
+              />
 
-            </div>
+              <span>{user.name}</span>
+            </Link>
 
-            <div className="nav-auth">
-
-                {!isLoggedIn ? (
-
-                    <>
-
-                        <Link
-                            to="/login"
-                            className="login-link"
-                        >
-                            Login
-                        </Link>
-
-                        <Link
-                            to="/signup"
-                            className="signup-btn"
-                        >
-                            Sign Up
-                        </Link>
-
-                    </>
-
-                ) : (
-
-                    <button
-                        className="logout-btn"
-                        onClick={handleLogout}
-                    >
-                        Logout
-                    </button>
-
-                )}
-
-            </div>
-
-        </nav>
-
-    );
-
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </>
+        )}
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;
