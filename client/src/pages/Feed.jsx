@@ -9,6 +9,7 @@ function Feed() {
   const [editingPostId, setEditingPostId] = useState(null);
   const [editContent, setEditContent] = useState("");
   const [editImage, setEditImage] = useState(null);
+  const [commentText, setCommentText] = useState({});
 
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
@@ -188,6 +189,83 @@ function Feed() {
       console.log(error);
     }
   }
+  async function addComment(postId) {
+    const text = commentText[postId];
+
+    if (!text || !text.trim()) {
+      alert("Comment cannot be empty");
+
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/posts/${postId}/comment`,
+
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
+          },
+
+          body: JSON.stringify({
+            text,
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setCommentText({
+          ...commentText,
+
+          [postId]: "",
+        });
+
+        fetchPosts();
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function deleteComment(postId, commentId) {
+    const confirmDelete = window.confirm("Delete this comment?");
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/posts/${postId}/comment/${commentId}`,
+
+        {
+          method: "DELETE",
+
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        fetchPosts();
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <main className="feed-container">
@@ -286,6 +364,49 @@ function Feed() {
               </button>
 
               <span>💬 {post.comments.length}</span>
+            </div>
+            <div className="comments-section">
+              <h4>Comments</h4>
+
+              {post.comments.length === 0 ? (
+                <p className="no-comments">No comments yet.</p>
+              ) : (
+                post.comments.map((comment) => (
+                  <div className="comment" key={comment._id}>
+                    <div className="comment-top">
+                      <strong>{comment.user.name}</strong>
+
+                      {user && user.id === comment.user._id && (
+                        <button
+                          className="delete-comment-btn"
+                          onClick={() => deleteComment(post._id, comment._id)}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+
+                    <p>{comment.text}</p>
+                  </div>
+                ))
+              )}
+
+              <div className="comment-input">
+                <input
+                  type="text"
+                  placeholder="Write a comment..."
+                  value={commentText[post._id] || ""}
+                  onChange={(e) =>
+                    setCommentText({
+                      ...commentText,
+
+                      [post._id]: e.target.value,
+                    })
+                  }
+                />
+
+                <button onClick={() => addComment(post._id)}>Post</button>
+              </div>
             </div>
           </div>
         ))}
