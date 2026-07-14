@@ -4,9 +4,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Feed from "./pages/Feed";
+import Journey from "./pages/Journey";
 import Profile from "./pages/Profile";
 import UserProfile from "./pages/UserProfile";
 import NotFound from "./pages/NotFound";
+import JourneyDetails from "./pages/JourneyDetails";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -30,6 +32,15 @@ function App() {
         />
 
         <Route
+          path="/journeys"
+          element={
+            <ProtectedRoute>
+              <Journey />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/profile"
           element={
             <ProtectedRoute>
@@ -48,6 +59,14 @@ function App() {
         />
 
         <Route path="*" element={<NotFound />} />
+        <Route
+          path="/journeys/:id"
+          element={
+            <ProtectedRoute>
+              <JourneyDetails />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

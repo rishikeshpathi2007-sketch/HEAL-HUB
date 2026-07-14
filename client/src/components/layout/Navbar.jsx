@@ -36,9 +36,10 @@ function Navbar() {
 
         <Link to="/feed">Community</Link>
 
+        <Link to="/journeys">Journeys</Link>
+
         <Link to="/">About</Link>
       </div>
-
       <div className="nav-auth">
         {!user ? (
           <>

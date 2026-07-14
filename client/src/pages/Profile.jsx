@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/Profile.css";
 import defaultProfile from "../assets/default-profile.png";
+import Journey from "./Journey";
 
 function Profile() {
   const [user, setUser] = useState(null);

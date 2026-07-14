@@ -1,0 +1,173 @@
+.journey-container {
+  max-width: 1000px;
+
+  margin: 2rem auto;
+
+  padding: 1rem;
+}
+
+.create-journey {
+  background: white;
+
+  padding: 2rem;
+
+  border-radius: 12px;
+
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+
+  margin-bottom: 2rem;
+}
+
+.create-journey h2 {
+  color: #2f5d50;
+
+  margin-bottom: 1.5rem;
+}
+
+.create-journey input[type="text"],
+.create-journey select,
+.create-journey textarea {
+  width: 100%;
+
+  padding: 1rem;
+
+  margin-bottom: 1rem;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  font-size: 1rem;
+}
+
+.create-journey textarea {
+  min-height: 120px;
+
+  resize: vertical;
+}
+
+.create-journey input[type="file"] {
+  margin-bottom: 1rem;
+}
+
+.create-journey label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  margin-bottom: 1rem;
+
+  font-weight: 500;
+}
+
+.create-journey button {
+  padding: 0.8rem 1.8rem;
+
+  background: #2f5d50;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 1rem;
+}
+
+.create-journey button:hover {
+  background: #24473d;
+}
+
+.journey-list {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+  gap: 1.5rem;
+}
+
+.journey-list h2 {
+  grid-column: 1/-1;
+
+  color: #2f5d50;
+}
+
+.journey-card {
+  background: white;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+
+  padding-bottom: 1rem;
+}
+
+.journey-cover {
+  width: 100%;
+
+  height: 200px;
+
+  object-fit: cover;
+}
+
+.journey-card h3 {
+  margin: 1rem;
+
+  color: #2f5d50;
+}
+
+.journey-card p {
+  margin: 0.5rem 1rem;
+
+  color: #555;
+}
+
+.delete-journey-btn {
+  margin: 1rem;
+
+  padding: 0.7rem 1.2rem;
+
+  background: #d9534f;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+.delete-journey-btn:hover {
+  background: #c9302c;
+}
+.journey-actions {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.view-journey-btn {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  background: #2f5d50;
+  color: white;
+  padding: 0.8rem;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.view-journey-btn:hover {
+  background: #24473d;
+}
+
+.delete-journey-btn {
+  flex: 1;
+}
