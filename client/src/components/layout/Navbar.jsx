@@ -1,6 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import defaultProfile from "../../assets/default-profile.png";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import "../../styles/Navbar.css";
 
 function Navbar() {
@@ -19,18 +20,21 @@ function Navbar() {
       </div>
 
       <div className="nav-links">
-        <Link to="/">Home</Link>
+        <NavLink to="/" end>
+          Home
+        </NavLink>
 
-        <Link to="/feed">Community</Link>
+        <NavLink to="/feed">Community</NavLink>
 
-        <>
-          <Link to="/journeys">My Journeys</Link>
+        <NavLink to="/journeys" end>
+          My Journeys
+        </NavLink>
 
-          <Link to="/journeys/public">Explore Journeys</Link>
-        </>
+        <NavLink to="/journeys/public">Explore Journeys</NavLink>
 
-        <Link to="/about">About</Link>
+        <NavLink to="/about">About</NavLink>
       </div>
+
       <div className="nav-auth">
         {!user ? (
           <>

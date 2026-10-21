@@ -18,84 +18,116 @@ import Navbar from "./components/layout/Navbar";
 import VerifyResetOTP from "./pages/VerifyResetOTP";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
+import { ToastProvider } from "./ToastContext";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
+      <ToastProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
 
-        <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
 
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/verify-otp" element={<VerifyOTP />} />
-        <Route
-          path="/feed"
-          element={
-            <ProtectedRoute>
-              <Feed />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <Signup />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <PublicRoute>
+                <ForgotPassword />
+              </PublicRoute>
+            }
+          />
+          <Route path="/verify-otp" element={<VerifyOTP />} />
+          <Route
+            path="/feed"
+            element={
+              <ProtectedRoute>
+                <Feed />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/journeys"
-          element={
-            <ProtectedRoute>
-              <Journey />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/journeys"
+            element={
+              <ProtectedRoute>
+                <Journey />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/user/:id"
-          element={
-            <ProtectedRoute>
-              <UserProfile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/journeys/public"
-          element={
-            <ProtectedRoute>
-              <PublicJourneys />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/user/:id"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/journeys/public"
+            element={
+              <ProtectedRoute>
+                <PublicJourneys />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route path="*" element={<NotFound />} />
-        <Route
-          path="/journeys/:id"
-          element={
-            <ProtectedRoute>
-              <JourneyDetails />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/journeys/public"
-          element={
-            <ProtectedRoute>
-              <PublicJourneys />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/about" element={<About />} />
-        <Route path="/verify-reset-otp" element={<VerifyResetOTP />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+          <Route
+            path="/journeys/:id"
+            element={
+              <ProtectedRoute>
+                <JourneyDetails />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="/about" element={<About />} />
+          <Route
+            path="/verify-reset-otp"
+            element={
+              <PublicRoute>
+                <VerifyResetOTP />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/reset-password"
+            element={
+              <PublicRoute>
+                <ResetPassword />
+              </PublicRoute>
+            }
+          />
+        </Routes>
+      </ToastProvider>
     </BrowserRouter>
   );
 }

@@ -189,3 +189,19 @@
     height: 40px;
   }
 }
+
+/* Current page indicator */
+.nav-links a.active {
+  color: #2f6b4f;
+  font-weight: 700;
+  border-bottom: 3px solid #2f6b4f;
+  padding-bottom: 6px;
+}
+
+.nav-links a {
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #2f6b4f;
+}

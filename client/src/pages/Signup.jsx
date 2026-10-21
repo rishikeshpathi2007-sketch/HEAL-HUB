@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "../ToastContext";
+import { useAuth } from "../context/AuthContext";
 import "../styles/Signup.css";
 
 function Signup() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { logout } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +20,7 @@ function Signup() {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      showToast("Passwords do not match", "error");
       return;
     }
 
@@ -36,7 +40,9 @@ function Signup() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message);
+        logout();
+
+        showToast(data.message || "OTP sent successfully", "success");
 
         setName("");
         setEmail("");
@@ -44,16 +50,15 @@ function Signup() {
         setConfirmPassword("");
 
         navigate("/verify-otp", {
-          state: {
-            email: data.email,
-          },
+          state: { email: data.email || email },
+          replace: true,
         });
       } else {
-        alert(data.message);
+        showToast(data.message || "Signup failed. Please try again.", "error");
       }
     } catch (error) {
       console.error(error);
-      alert("Unable to connect to server.");
+      showToast("Unable to connect to server.", "error");
     }
   }
 

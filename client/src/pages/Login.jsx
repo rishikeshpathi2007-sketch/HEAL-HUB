@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
+import { useToast } from "../ToastContext";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,20 +32,18 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.token);
+        login(data.user, data.token);
 
-        localStorage.setItem("user", JSON.stringify(data.user));
+        showToast(data.message || "Login successful!", "success");
 
-        alert(data.message);
-
-        window.location.href = "/feed";
+        navigate("/feed", { replace: true });
       } else {
-        alert(data.message);
+        showToast(data.message || "Login failed. Please try again.", "error");
       }
     } catch (error) {
       console.error(error);
 
-      alert("Unable to connect to server.");
+      showToast("Unable to connect to server.", "error");
     }
   }
 

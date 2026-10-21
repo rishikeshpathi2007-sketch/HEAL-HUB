@@ -6,9 +6,12 @@ import sendEmail from "../utils/sendEmail.js";
 // ==========================
 // Signup
 // ==========================
+
 export const signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const name = req.body.name?.trim();
+    const email = req.body.email?.trim().toLowerCase();
+    const password = req.body.password;
 
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -16,31 +19,49 @@ export const signup = async (req, res) => {
       });
     }
 
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
+    if (password.length < 8) {
       return res.status(400).json({
-        message: "User already exists",
+        message: "Password must be at least 8 characters long",
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const existingUser = await User.findOne({ email });
 
-    // Generate a 6-digit OTP
+    // If this email is already verified, don't create another account.
+    if (existingUser?.isVerified) {
+      return res.status(409).json({
+        message: "User already exists. Please log in.",
+      });
+    }
+
+    // Generate a fresh OTP for a new or unverified account.
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    const newUser = new User({
-      name,
-      email,
-      password: hashedPassword,
+    if (existingUser) {
+      // Update the existing unverified account.
+      existingUser.name = name;
+      existingUser.password = await bcrypt.hash(password, 10);
+      existingUser.otp = otp;
+      existingUser.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
 
-      isVerified: false,
-      otp,
-      otpExpires: Date.now() + 10 * 60 * 1000,
-    });
+      await existingUser.save();
+    } else {
+      // Create a new unverified account.
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-    await newUser.save();
+      const newUser = new User({
+        name,
+        email,
+        password: hashedPassword,
+        isVerified: false,
+        otp,
+        otpExpires: new Date(Date.now() + 10 * 60 * 1000),
+      });
 
+      await newUser.save();
+    }
+
+    // Send the OTP only after the account has been saved.
     await sendEmail(
       email,
       "Heal Hub Email Verification",
@@ -53,13 +74,15 @@ ${otp}
 This OTP is valid for 10 minutes.`,
     );
 
-    res.status(201).json({
-      message: "OTP sent successfully",
+    return res.status(200).json({
+      message: "OTP sent successfully. Please check your email.",
       email,
     });
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
+    console.error("Signup error:", error);
+
+    return res.status(500).json({
+      message: "Unable to complete signup. Please try again.",
     });
   }
 };
