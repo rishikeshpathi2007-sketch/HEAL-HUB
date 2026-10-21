@@ -7,8 +7,9 @@ client/build/
 server/uploads/
 
 .env
+client/.env
+server/.env
 
 *.log
-
 .vscode/
 .idea/

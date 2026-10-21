@@ -3,146 +3,105 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
 function Login() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-    const [showPassword, setShowPassword] = useState(false);
+  async function handleSubmit(event) {
+    event.preventDefault();
 
-    async function handleSubmit(event) {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-        event.preventDefault();
+      const data = await response.json();
 
-        try {
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
 
-            const response = await fetch(
-                "http://localhost:5000/api/auth/login",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email,
-                        password,
-                    }),
-                }
-            );
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-            const data = await response.json();
+        alert(data.message);
 
-            if (response.ok) {
+        window.location.href = "/feed";
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
 
-                localStorage.setItem("token", data.token);
-
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify(data.user)
-                );
-
-                alert(data.message);
-
-                navigate("/feed");
-
-            } else {
-
-                alert(data.message);
-
-            }
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert("Unable to connect to server.");
-
-        }
-
+      alert("Unable to connect to server.");
     }
+  }
 
-    return (
+  return (
+    <main className="login-container">
+      <div className="login-box">
+        <h1>Welcome Back</h1>
 
-        <main className="login-container">
+        <p className="login-text">Login to continue your healing journey.</p>
 
-            <div className="login-box">
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label>Email</label>
 
-                <h1>Welcome Back</h1>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-                <p className="login-text">
-                    Login to continue your healing journey.
-                </p>
+          <div className="input-group">
+            <label>Password</label>
 
-                <form onSubmit={handleSubmit}>
+            <div className="password-field">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
 
-                    <div className="input-group">
-
-                        <label>Email</label>
-
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-
-                    </div>
-
-                    <div className="input-group">
-
-                        <label>Password</label>
-
-                        <div className="password-field">
-
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                placeholder="Enter your password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-
-                            <button
-                                type="button"
-                                className="show-btn"
-                                onClick={() =>
-                                    setShowPassword(!showPassword)
-                                }
-                            >
-                                {showPassword ? "Hide" : "Show"}
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="login-btn"
-                    >
-                        Login
-                    </button>
-
-                </form>
-
-                <p className="signup-link">
-
-                    Don't have an account?
-
-                    <Link to="/signup">
-                        {" "}Sign Up
-                    </Link>
-
-                </p>
-
+              <button
+                type="button"
+                className="show-btn"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
             </div>
+          </div>
 
-        </main>
+          <button type="submit" className="login-btn">
+            Login
+          </button>
+        </form>
+        <p className="forgot-password-link">
+          <Link to="/forgot-password">Forgot Password?</Link>
+        </p>
 
-    );
-
+        <p className="signup-link">
+          Don't have an account?
+          <Link to="/signup"> Sign Up</Link>
+        </p>
+      </div>
+    </main>
+  );
 }
 
 export default Login;

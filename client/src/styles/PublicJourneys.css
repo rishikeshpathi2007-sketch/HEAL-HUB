@@ -1,0 +1,51 @@
+.public-journeys-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.public-journey-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.public-cover {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.author-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.author-image {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.view-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  background: #2f5d50;
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+}
+.category-filter {
+  margin: 1rem 0 2rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}

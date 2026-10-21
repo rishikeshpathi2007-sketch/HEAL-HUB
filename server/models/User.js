@@ -27,10 +27,31 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    otp: {
+      type: String,
+      default: "",
+    },
+
+    otpExpires: {
+      type: Date,
+    },
+    resetOtp: {
+      type: String,
+      default: "",
+    },
+
+    resetOtpExpires: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const User = mongoose.model("User", userSchema);

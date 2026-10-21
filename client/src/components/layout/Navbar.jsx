@@ -1,27 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import defaultProfile from "../../assets/default-profile.png";
 import "../../styles/Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
-
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const { user, logout } = useAuth();
 
   function handleLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-
-    setUser(null);
-
+    logout();
     navigate("/login");
   }
 
@@ -36,14 +23,18 @@ function Navbar() {
 
         <Link to="/feed">Community</Link>
 
-        <Link to="/journeys">Journeys</Link>
+        <>
+          <Link to="/journeys">My Journeys</Link>
 
-        <Link to="/">About</Link>
+          <Link to="/journeys/public">Explore Journeys</Link>
+        </>
+
+        <Link to="/about">About</Link>
       </div>
       <div className="nav-auth">
         {!user ? (
           <>
-            <Link to="/login" className="login-link">
+            <Link to="/login" className="navbar-login-btn">
               Login
             </Link>
 

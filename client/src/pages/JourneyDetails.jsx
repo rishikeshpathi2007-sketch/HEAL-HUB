@@ -13,6 +13,7 @@ function JourneyDetails() {
 
   const token = localStorage.getItem("token");
 
+  const currentUser = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     fetchJourney();
     fetchEntries();
@@ -172,34 +173,40 @@ function JourneyDetails() {
               )}
 
               <small>{new Date(entry.createdAt).toLocaleDateString()}</small>
-              <button
-                className="delete-entry-btn"
-                onClick={() => deleteEntry(entry._id)}
-              >
-                Delete Entry
-              </button>
+              {journey.user._id === currentUser.id && (
+                <button
+                  className="delete-entry-btn"
+                  onClick={() => deleteEntry(entry._id)}
+                >
+                  Delete Entry
+                </button>
+              )}
             </div>
           );
         })
       )}
 
-      <hr />
+      {journey.user._id === currentUser.id && (
+        <>
+          <hr />
 
-      <h2>Add Timeline Entry</h2>
+          <h2>Add Timeline Entry</h2>
 
-      <textarea
-        placeholder="How are you feeling today?"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+          <textarea
+            placeholder="How are you feeling today?"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setImage(e.target.files[0])}
-      />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
 
-      <button onClick={addEntry}>Add Entry</button>
+          <button onClick={addEntry}>Add Entry</button>
+        </>
+      )}
     </main>
   );
 }
