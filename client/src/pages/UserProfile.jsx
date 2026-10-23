@@ -15,7 +15,9 @@ function UserProfile() {
 
   async function fetchUser() {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${id}`);
+      const response = await fetch(
+        `https://heal-hub-v59o.onrender.com/api/users/${id}`,
+      );
 
       const data = await response.json();
 
@@ -40,7 +42,7 @@ function UserProfile() {
         <img
           src={
             user.profileImage
-              ? `http://localhost:5000/uploads/${user.profileImage}`
+              ? `https://heal-hub-v59o.onrender.com/uploads/${user.profileImage}`
               : defaultProfile
           }
           alt="Profile"
@@ -66,7 +68,7 @@ function UserProfile() {
 
               {post.image && (
                 <img
-                  src={`http://localhost:5000/uploads/${post.image}`}
+                  src={`https://heal-hub-v59o.onrender.com/uploads/${post.image}`}
                   alt="Post"
                   className="user-post-image"
                 />

@@ -21,7 +21,9 @@ function JourneyDetails() {
 
   async function fetchJourney() {
     try {
-      const response = await fetch(`http://localhost:5000/api/journeys/${id}`);
+      const response = await fetch(
+        `https://heal-hub-v59o.onrender.com/api/journeys/${id}`,
+      );
 
       const data = await response.json();
 
@@ -38,7 +40,7 @@ function JourneyDetails() {
   async function fetchEntries() {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/journeys/${id}/entries`,
+        `https://heal-hub-v59o.onrender.com/api/journeys/${id}/entries`,
       );
 
       const data = await response.json();
@@ -69,7 +71,7 @@ function JourneyDetails() {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/journeys/${id}/entries`,
+        `https://heal-hub-v59o.onrender.com/api/journeys/${id}/entries`,
         {
           method: "POST",
           headers: {
@@ -106,7 +108,7 @@ function JourneyDetails() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/journeys/${id}/entries/${entryId}`,
+        `https://heal-hub-v59o.onrender.com/api/journeys/${id}/entries/${entryId}`,
         {
           method: "DELETE",
           headers: {
@@ -130,7 +132,7 @@ function JourneyDetails() {
     <main className="journey-details">
       {journey.coverImage && (
         <img
-          src={`http://localhost:5000/uploads/${journey.coverImage}`}
+          src={`https://heal-hub-v59o.onrender.com/uploads/${journey.coverImage}`}
           alt={journey.title}
           className="journey-cover"
         />
@@ -166,7 +168,7 @@ function JourneyDetails() {
 
               {entry.image && (
                 <img
-                  src={`http://localhost:5000/uploads/${entry.image}`}
+                  src={`https://heal-hub-v59o.onrender.com/uploads/${entry.image}`}
                   alt="Entry"
                   className="entry-image"
                 />

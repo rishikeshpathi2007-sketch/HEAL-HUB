@@ -36,7 +36,7 @@ function ResetPassword() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/reset-password",
+        "https://heal-hub-v59o.onrender.com/api/auth/reset-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

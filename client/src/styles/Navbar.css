@@ -15,14 +15,26 @@
 
 /* ---------------- LOGO ---------------- */
 
-.logo a {
-  color: white;
-  text-decoration: none;
-  font-size: 2.2rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+/* ---------------- LOGO ---------------- */
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
+.logo a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo img {
+  width: 120px;
+  height: 55px;
+  object-fit: contain;
+  display: block;
+}
 /* ---------------- NAV LINKS ---------------- */
 
 .nav-links {
@@ -167,10 +179,10 @@
 /* ---------------- MOBILE ---------------- */
 
 @media (max-width: 600px) {
-  .logo a {
-    font-size: 1.8rem;
+  .logo img {
+    width: 105px;
+    height: 48px;
   }
-
   .nav-links {
     gap: 1rem;
   }
@@ -189,19 +201,19 @@
     height: 40px;
   }
 }
-
-/* Current page indicator */
-.nav-links a.active {
-  color: #2f6b4f;
-  font-weight: 700;
-  border-bottom: 3px solid #2f6b4f;
-  padding-bottom: 6px;
-}
+/* ---------------- CURRENT PAGE INDICATOR ---------------- */
 
 .nav-links a {
   transition: color 0.2s ease;
 }
 
+.nav-links a.active {
+  color: #d6e8c5;
+  font-weight: 700;
+  border-bottom: 2px solid #d6e8c5;
+  padding-bottom: 6px;
+}
+
 .nav-links a:hover {
-  color: #2f6b4f;
+  color: #d6e8c5;
 }

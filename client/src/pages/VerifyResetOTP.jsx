@@ -23,7 +23,7 @@ function VerifyResetOTP() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/verify-reset-otp",
+        "https://heal-hub-v59o.onrender.com/api/auth/verify-reset-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

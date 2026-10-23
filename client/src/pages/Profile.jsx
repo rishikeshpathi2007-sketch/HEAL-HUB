@@ -23,11 +23,14 @@ function Profile() {
 
   async function fetchProfile() {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        "https://heal-hub-v59o.onrender.com/api/auth/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       const data = await response.json();
 
@@ -46,7 +49,7 @@ function Profile() {
   async function fetchMyPosts() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/profile/posts",
+        "https://heal-hub-v59o.onrender.com/api/auth/profile/posts",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -78,13 +81,16 @@ function Profile() {
         formData.append("profileImage", profileImage);
       }
 
-      const response = await fetch("http://localhost:5000/api/auth/profile", {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        "https://heal-hub-v59o.onrender.com/api/auth/profile",
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         },
-        body: formData,
-      });
+      );
 
       const data = await response.json();
 
@@ -114,7 +120,7 @@ function Profile() {
         <img
           src={
             user.profileImage
-              ? `http://localhost:5000/uploads/${user.profileImage}`
+              ? `https://heal-hub-v59o.onrender.com/uploads/${user.profileImage}`
               : defaultProfile
           }
           alt="Profile"
@@ -163,7 +169,7 @@ function Profile() {
 
                 {post.image && (
                   <img
-                    src={`http://localhost:5000/uploads/${post.image}`}
+                    src={`https://heal-hub-v59o.onrender.com/uploads/${post.image}`}
                     alt="Post"
                     className="my-post-image"
                   />

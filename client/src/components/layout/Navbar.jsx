@@ -16,7 +16,9 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="logo">
-        <Link to="/">Heal Hub</Link>
+        <Link to="/" aria-label="Heal Hub home">
+          <img src="/heal-hub-logo.png" alt="Heal Hub" />
+        </Link>
       </div>
 
       <div className="nav-links">
@@ -52,7 +54,7 @@ function Navbar() {
               <img
                 src={
                   user.profileImage
-                    ? `http://localhost:5000/uploads/${user.profileImage}`
+                    ? `https://heal-hub-v59o.onrender.com/uploads/${user.profileImage}`
                     : defaultProfile
                 }
                 alt="Profile"

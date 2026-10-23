@@ -1,3 +1,442 @@
+// import API_URL from "../api";
+// import { useEffect, useState } from "react";
+// import { Link } from "react-router-dom";
+// import "../styles/Feed.css";
+// import defaultProfile from "../assets/default-profile.png";
+
+// function Feed() {
+//   const [posts, setPosts] = useState([]);
+//   const [content, setContent] = useState("");
+//   const [image, setImage] = useState(null);
+
+//   const [editingPostId, setEditingPostId] = useState(null);
+//   const [editContent, setEditContent] = useState("");
+//   const [editImage, setEditImage] = useState(null);
+//   const [commentText, setCommentText] = useState({});
+
+//   const token = localStorage.getItem("token");
+//   const user = JSON.parse(localStorage.getItem("user"));
+
+//   async function fetchPosts() {
+//     try {
+//       const response = await fetch("https://heal-hub-v59o.onrender.com/api/posts");
+
+//       const data = await response.json();
+
+//       setPosts(data);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+
+//   useEffect(() => {
+//     fetchPosts();
+//   }, []);
+
+//   async function createPost() {
+//     if (!content.trim()) {
+//       alert("Post cannot be empty");
+//       return;
+//     }
+
+//     try {
+//       const formData = new FormData();
+
+//       formData.append("content", content);
+
+//       if (image) {
+//         formData.append("image", image);
+//       }
+
+//       const response = await fetch(
+//         "https://heal-hub-v59o.onrender.com/api/posts",
+
+//         {
+//           method: "POST",
+
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+
+//           body: formData,
+//         },
+//       );
+
+//       const data = await response.json();
+
+//       if (response.ok) {
+//         setContent("");
+//         setImage(null);
+
+//         fetchPosts();
+//       } else {
+//         alert(data.message);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+
+//   async function deletePost(postId) {
+//     const confirmDelete = window.confirm(
+//       "Are you sure you want to delete this post?",
+//     );
+
+//     if (!confirmDelete) {
+//       return;
+//     }
+
+//     try {
+//       const response = await fetch(
+//         `https://heal-hub-v59o.onrender.com/api/posts/${postId}`,
+
+//         {
+//           method: "DELETE",
+
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         },
+//       );
+
+//       const data = await response.json();
+
+//       if (response.ok) {
+//         fetchPosts();
+//       } else {
+//         alert(data.message);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+
+//   function startEditing(post) {
+//     setEditingPostId(post._id);
+//     setEditContent(post.content);
+//     setEditImage(null);
+//   }
+
+//   function cancelEditing() {
+//     setEditingPostId(null);
+//     setEditContent("");
+//     setEditImage(null);
+//   }
+
+//   async function updatePost(postId) {
+//     if (!editContent.trim()) {
+//       alert("Post cannot be empty");
+//       return;
+//     }
+
+//     try {
+//       const formData = new FormData();
+
+//       formData.append("content", editContent);
+
+//       if (editImage) {
+//         formData.append("image", editImage);
+//       }
+
+//       const response = await fetch(
+//         `https://heal-hub-v59o.onrender.com/api/posts/${postId}`,
+
+//         {
+//           method: "PUT",
+
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+
+//           body: formData,
+//         },
+//       );
+
+//       const data = await response.json();
+
+//       if (response.ok) {
+//         setEditingPostId(null);
+//         setEditContent("");
+//         setEditImage(null);
+
+//         fetchPosts();
+//       } else {
+//         alert(data.message);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+//   async function toggleLike(postId) {
+//     try {
+//       const response = await fetch(
+//         `https://heal-hub-v59o.onrender.com/api/posts/${postId}/like`,
+
+//         {
+//           method: "POST",
+
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         },
+//       );
+
+//       const data = await response.json();
+
+//       if (response.ok) {
+//         fetchPosts();
+//       } else {
+//         alert(data.message);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+//   async function addComment(postId) {
+//     const text = commentText[postId];
+
+//     if (!text || !text.trim()) {
+//       alert("Comment cannot be empty");
+
+//       return;
+//     }
+
+//     try {
+//       const response = await fetch(
+//         `https://heal-hub-v59o.onrender.com/api/posts/${postId}/comment`,
+
+//         {
+//           method: "POST",
+
+//           headers: {
+//             "Content-Type": "application/json",
+
+//             Authorization: `Bearer ${token}`,
+//           },
+
+//           body: JSON.stringify({
+//             text,
+//           }),
+//         },
+//       );
+
+//       const data = await response.json();
+
+//       if (response.ok) {
+//         setCommentText({
+//           ...commentText,
+
+//           [postId]: "",
+//         });
+
+//         fetchPosts();
+//       } else {
+//         alert(data.message);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+
+//   async function deleteComment(postId, commentId) {
+//     const confirmDelete = window.confirm("Delete this comment?");
+
+//     if (!confirmDelete) {
+//       return;
+//     }
+
+//     try {
+//       const response = await fetch(
+//         `https://heal-hub-v59o.onrender.com/api/posts/${postId}/comment/${commentId}`,
+
+//         {
+//           method: "DELETE",
+
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         },
+//       );
+
+//       const data = await response.json();
+
+//       if (response.ok) {
+//         fetchPosts();
+//       } else {
+//         alert(data.message);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+
+//   return (
+//     <main className="feed-container">
+//       <section className="create-post">
+//         <h2>Create a Post</h2>
+
+//         <textarea
+//           placeholder="What's on your mind?"
+//           value={content}
+//           onChange={(e) => setContent(e.target.value)}
+//         />
+
+//         <input
+//           type="file"
+//           accept="image/*"
+//           onChange={(e) => setImage(e.target.files[0])}
+//         />
+
+//         <button onClick={createPost}>Post</button>
+//       </section>
+
+//       <section className="posts">
+//         {posts.map((post) => (
+//           <div className="post-card" key={post._id}>
+//             <Link to={`/user/${post.author._id}`} className="author-link">
+//               <div className="post-author">
+//                 <Link to={`/user/${post.author._id}`} className="author-link">
+//                   <img
+//                     src={
+//                       post.author.profileImage
+//                         ? `https://heal-hub-v59o.onrender.com/uploads/${post.author.profileImage}`
+//                         : defaultProfile
+//                     }
+//                     alt="Profile"
+//                     className="author-image"
+//                   />
+
+//                   <h3>{post.author.name}</h3>
+//                 </Link>
+//               </div>
+//             </Link>
+
+//             {editingPostId === post._id ? (
+//               <>
+//                 <textarea
+//                   className="edit-textarea"
+//                   value={editContent}
+//                   onChange={(e) => setEditContent(e.target.value)}
+//                 />
+
+//                 <input
+//                   type="file"
+//                   accept="image/*"
+//                   onChange={(e) => setEditImage(e.target.files[0])}
+//                 />
+
+//                 <div className="edit-buttons">
+//                   <button
+//                     className="save-btn"
+//                     onClick={() => updatePost(post._id)}
+//                   >
+//                     Save
+//                   </button>
+
+//                   <button className="cancel-btn" onClick={cancelEditing}>
+//                     Cancel
+//                   </button>
+//                 </div>
+//               </>
+//             ) : (
+//               <>
+//                 <p>{post.content}</p>
+
+//                 {post.image && (
+//                   <img
+//                     src={`https://heal-hub-v59o.onrender.com/uploads/${post.image}`}
+//                     alt="Post"
+//                     className="post-image"
+//                   />
+//                 )}
+
+//                 {user && user.id === post.author._id && (
+//                   <div className="owner-buttons">
+//                     <button
+//                       className="edit-btn"
+//                       onClick={() => startEditing(post)}
+//                     >
+//                       Edit
+//                     </button>
+
+//                     <button
+//                       className="delete-btn"
+//                       onClick={() => deletePost(post._id)}
+//                     >
+//                       Delete
+//                     </button>
+//                   </div>
+//                 )}
+//               </>
+//             )}
+
+//             <div className="post-actions">
+//               <button
+//                 className={
+//                   user && post.likes.includes(user.id)
+//                     ? "like-btn liked"
+//                     : "like-btn"
+//                 }
+//                 onClick={() => toggleLike(post._id)}
+//               >
+//                 ❤️ {post.likes.length}
+//               </button>
+
+//               <span>💬 {post.comments.length}</span>
+//             </div>
+//             <div className="comments-section">
+//               <h4>Comments</h4>
+
+//               {post.comments.length === 0 ? (
+//                 <p className="no-comments">No comments yet.</p>
+//               ) : (
+//                 post.comments.map((comment) => (
+//                   <div className="comment" key={comment._id}>
+//                     <div className="comment-top">
+//                       <strong>{comment.user.name}</strong>
+
+//                       {user && user.id === comment.user._id && (
+//                         <button
+//                           className="delete-comment-btn"
+//                           onClick={() => deleteComment(post._id, comment._id)}
+//                         >
+//                           Delete
+//                         </button>
+//                       )}
+//                     </div>
+
+//                     <p>{comment.text}</p>
+//                   </div>
+//                 ))
+//               )}
+
+//               <div className="comment-input">
+//                 <input
+//                   type="text"
+//                   placeholder="Write a comment..."
+//                   value={commentText[post._id] || ""}
+//                   onChange={(e) =>
+//                     setCommentText({
+//                       ...commentText,
+
+//                       [post._id]: e.target.value,
+//                     })
+//                   }
+//                 />
+
+//                 <button onClick={() => addComment(post._id)}>Post</button>
+//               </div>
+//             </div>
+//           </div>
+//         ))}
+//       </section>
+//     </main>
+//   );
+// }
+
+// export default Feed;
+
+import API_URL from "../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Feed.css";
@@ -18,13 +457,16 @@ function Feed() {
 
   async function fetchPosts() {
     try {
-      const response = await fetch("http://localhost:5000/api/posts");
-
+      const response = await fetch(`${API_URL}/api/posts`);
       const data = await response.json();
 
-      setPosts(data);
+      if (response.ok) {
+        setPosts(data);
+      } else {
+        console.error(data.message || "Failed to fetch posts");
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching posts:", error);
     }
   }
 
@@ -40,39 +482,31 @@ function Feed() {
 
     try {
       const formData = new FormData();
-
       formData.append("content", content);
 
       if (image) {
         formData.append("image", image);
       }
 
-      const response = await fetch(
-        "http://localhost:5000/api/posts",
-
-        {
-          method: "POST",
-
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-
-          body: formData,
+      const response = await fetch(`${API_URL}/api/posts`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: formData,
+      });
 
       const data = await response.json();
 
       if (response.ok) {
         setContent("");
         setImage(null);
-
-        fetchPosts();
+        await fetchPosts();
       } else {
-        alert(data.message);
+        alert(data.message || "Failed to create post");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error creating post:", error);
     }
   }
 
@@ -81,32 +515,25 @@ function Feed() {
       "Are you sure you want to delete this post?",
     );
 
-    if (!confirmDelete) {
-      return;
-    }
+    if (!confirmDelete) return;
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/posts/${postId}`,
-
-        {
-          method: "DELETE",
-
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await fetch(`${API_URL}/api/posts/${postId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       const data = await response.json();
 
       if (response.ok) {
-        fetchPosts();
+        await fetchPosts();
       } else {
-        alert(data.message);
+        alert(data.message || "Failed to delete post");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error deleting post:", error);
     }
   }
 
@@ -130,26 +557,19 @@ function Feed() {
 
     try {
       const formData = new FormData();
-
       formData.append("content", editContent);
 
       if (editImage) {
         formData.append("image", editImage);
       }
 
-      const response = await fetch(
-        `http://localhost:5000/api/posts/${postId}`,
-
-        {
-          method: "PUT",
-
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-
-          body: formData,
+      const response = await fetch(`${API_URL}/api/posts/${postId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: formData,
+      });
 
       const data = await response.json();
 
@@ -157,100 +577,81 @@ function Feed() {
         setEditingPostId(null);
         setEditContent("");
         setEditImage(null);
-
-        fetchPosts();
+        await fetchPosts();
       } else {
-        alert(data.message);
+        alert(data.message || "Failed to update post");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error updating post:", error);
     }
   }
+
   async function toggleLike(postId) {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/posts/${postId}/like`,
-
-        {
-          method: "POST",
-
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await fetch(`${API_URL}/api/posts/${postId}/like`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       const data = await response.json();
 
       if (response.ok) {
-        fetchPosts();
+        await fetchPosts();
       } else {
-        alert(data.message);
+        alert(data.message || "Failed to update like");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error updating like:", error);
     }
   }
+
   async function addComment(postId) {
     const text = commentText[postId];
 
     if (!text || !text.trim()) {
       alert("Comment cannot be empty");
-
       return;
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/posts/${postId}/comment`,
-
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json",
-
-            Authorization: `Bearer ${token}`,
-          },
-
-          body: JSON.stringify({
-            text,
-          }),
+      const response = await fetch(`${API_URL}/api/posts/${postId}/comment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify({ text }),
+      });
 
       const data = await response.json();
 
       if (response.ok) {
-        setCommentText({
-          ...commentText,
-
+        setCommentText((previous) => ({
+          ...previous,
           [postId]: "",
-        });
+        }));
 
-        fetchPosts();
+        await fetchPosts();
       } else {
-        alert(data.message);
+        alert(data.message || "Failed to add comment");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error adding comment:", error);
     }
   }
 
   async function deleteComment(postId, commentId) {
     const confirmDelete = window.confirm("Delete this comment?");
 
-    if (!confirmDelete) {
-      return;
-    }
+    if (!confirmDelete) return;
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/posts/${postId}/comment/${commentId}`,
-
+        `${API_URL}/api/posts/${postId}/comment/${commentId}`,
         {
           method: "DELETE",
-
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -260,13 +661,25 @@ function Feed() {
       const data = await response.json();
 
       if (response.ok) {
-        fetchPosts();
+        await fetchPosts();
       } else {
-        alert(data.message);
+        alert(data.message || "Failed to delete comment");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error deleting comment:", error);
     }
+  }
+
+  function getImageUrl(imagePath) {
+    if (!imagePath) return defaultProfile;
+
+    // Supports full URLs returned by a cloud image provider.
+    if (/^https?:\/\//i.test(imagePath)) {
+      return imagePath;
+    }
+
+    // Supports images stored by the existing local-upload backend.
+    return `${API_URL}/uploads/${imagePath}`;
   }
 
   return (
@@ -283,7 +696,7 @@ function Feed() {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
+          onChange={(e) => setImage(e.target.files[0] || null)}
         />
 
         <button onClick={createPost}>Post</button>
@@ -292,23 +705,20 @@ function Feed() {
       <section className="posts">
         {posts.map((post) => (
           <div className="post-card" key={post._id}>
-            <Link to={`/user/${post.author._id}`} className="author-link">
-              <div className="post-author">
-                <Link to={`/user/${post.author._id}`} className="author-link">
-                  <img
-                    src={
-                      post.author.profileImage
-                        ? `http://localhost:5000/uploads/${post.author.profileImage}`
-                        : defaultProfile
-                    }
-                    alt="Profile"
-                    className="author-image"
-                  />
-
-                  <h3>{post.author.name}</h3>
-                </Link>
-              </div>
-            </Link>
+            <div className="post-author">
+              <Link to={`/user/${post.author._id}`} className="author-link">
+                <img
+                  src={getImageUrl(post.author.profileImage)}
+                  alt="Profile"
+                  className="author-image"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = defaultProfile;
+                  }}
+                />
+                <h3>{post.author.name}</h3>
+              </Link>
+            </div>
 
             {editingPostId === post._id ? (
               <>
@@ -321,7 +731,7 @@ function Feed() {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setEditImage(e.target.files[0])}
+                  onChange={(e) => setEditImage(e.target.files[0] || null)}
                 />
 
                 <div className="edit-buttons">
@@ -343,9 +753,13 @@ function Feed() {
 
                 {post.image && (
                   <img
-                    src={`http://localhost:5000/uploads/${post.image}`}
+                    src={getImageUrl(post.image)}
                     alt="Post"
                     className="post-image"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.style.display = "none";
+                    }}
                   />
                 )}
 
@@ -383,6 +797,7 @@ function Feed() {
 
               <span>💬 {post.comments.length}</span>
             </div>
+
             <div className="comments-section">
               <h4>Comments</h4>
 
@@ -415,11 +830,10 @@ function Feed() {
                   placeholder="Write a comment..."
                   value={commentText[post._id] || ""}
                   onChange={(e) =>
-                    setCommentText({
-                      ...commentText,
-
+                    setCommentText((previous) => ({
+                      ...previous,
                       [post._id]: e.target.value,
-                    })
+                    }))
                   }
                 />
 

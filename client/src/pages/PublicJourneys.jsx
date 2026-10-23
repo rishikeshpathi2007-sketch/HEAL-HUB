@@ -13,7 +13,9 @@ function PublicJourneys() {
 
   async function fetchPublicJourneys() {
     try {
-      const response = await fetch("http://localhost:5000/api/journeys/public");
+      const response = await fetch(
+        "https://heal-hub-v59o.onrender.com/api/journeys/public",
+      );
 
       const data = await response.json();
 
@@ -57,7 +59,7 @@ function PublicJourneys() {
           <div className="public-journey-card" key={journey._id}>
             {journey.coverImage && (
               <img
-                src={`http://localhost:5000/uploads/${journey.coverImage}`}
+                src={`https://heal-hub-v59o.onrender.com/uploads/${journey.coverImage}`}
                 alt={journey.title}
                 className="public-cover"
               />
@@ -73,7 +75,7 @@ function PublicJourneys() {
               <img
                 src={
                   journey.user.profileImage
-                    ? `http://localhost:5000/uploads/${journey.user.profileImage}`
+                    ? `https://heal-hub-v59o.onrender.com/uploads/${journey.user.profileImage}`
                     : defaultProfile
                 }
                 alt="Author"

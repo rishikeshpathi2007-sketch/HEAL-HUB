@@ -16,7 +16,7 @@ function VerifyOTP() {
   async function handleVerify() {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/verify-otp",
+        "https://heal-hub-v59o.onrender.com/api/auth/verify-otp",
         {
           method: "POST",
           headers: {
